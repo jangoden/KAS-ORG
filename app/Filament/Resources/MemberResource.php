@@ -26,6 +26,12 @@ class MemberResource extends Resource
         return static::getModel()::count();
     }
 
+    public static function getModelLabel(): string
+    {
+        return 'Anggota';
+    }
+
+
     public static function form(Form $form): Form
     {
         return $form->schema([

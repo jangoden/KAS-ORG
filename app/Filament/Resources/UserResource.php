@@ -21,6 +21,21 @@ class UserResource extends Resource
         return static::getModel()::count();
     }
 
+    public static function getModelLabel(): string
+    {
+        return 'Pengguna';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'Pengguna';
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return 'Pengguna';
+    }
+
     public static function form(Form $form): Form
     {
         return $form

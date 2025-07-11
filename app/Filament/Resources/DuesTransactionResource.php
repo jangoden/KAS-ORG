@@ -36,9 +36,9 @@ class DuesTransactionResource extends Resource implements HasShieldPermissions /
     // =========================================================================
     // [DIUBAH] PENGATURAN NAMA DAN URL UNTUK RESOURCE
     // =========================================================================
-    protected static ?string $modelLabel = 'Transaksi Iuran';
-    protected static ?string $pluralModelLabel = 'Transaksi Iuran';
-    protected static ?string $slug = 'transaksi-iuran';
+    protected static ?string $modelLabel = 'Transaksi Kas';
+    protected static ?string $pluralModelLabel = 'Transaksi Kas';
+    protected static ?string $slug = 'transaksi-kas';
     // =========================================================================
 
     // =========================================================================
