@@ -1,3 +1,4 @@
+Sistem Kas Organisasi (KAS-ORG)
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -7,56 +8,208 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+KAS-ORG adalah aplikasi berbasis web modern yang dirancang untuk mempermudah pengelolaan keuangan dan pencatatan kas dalam sebuah organisasi. Dibangun di atas framework Laravel, aplikasi ini menawarkan solusi yang kuat, aman, dan efisien untuk menggantikan pencatatan manual.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Dilengkapi dengan Admin Panel canggih yang dibuat menggunakan Filament, sistem ini memungkinkan administrator untuk mengelola seluruh aspek data dengan antarmuka yang intuitif. Keamanan dan manajemen hak akses pengguna ditangani secara profesional oleh Spatie Laravel-Permission (Shield).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+📋 Fitur Utama
+Dashboard Interaktif: Menampilkan ringkasan kondisi kas terkini, termasuk total pemasukan, total pengeluaran, dan saldo akhir dalam bentuk visual yang mudah dipahami.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Manajemen Transaksi:
 
-## Learning Laravel
+Pemasukan: Pencatatan semua dana yang masuk ke kas organisasi.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Pengeluaran: Pencatatan semua dana yang keluar dari kas.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Manajemen Kategori: Pengelompokan transaksi berdasarkan kategori (misal: Iuran Anggota, Donasi, Biaya Operasional) untuk analisis yang lebih detail.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Rekapitulasi & Laporan: Menghasilkan laporan keuangan periodik (bulanan, tahunan) yang dapat dicetak atau diunduh dalam format PDF/Excel.
 
-## Laravel Sponsors
+✨ Fitur Admin Panel (Filament)
+Manajemen Pengguna (Users): Menambah, mengubah, dan menghapus data pengguna yang dapat mengakses sistem.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Manajemen Hak Akses (Roles & Permissions):
 
-### Premium Partners
+Roles: Membuat peran/jabatan (misal: Administrator, Bendahara, Anggota).
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Permissions: Menentukan izin spesifik untuk setiap tindakan (misal: create-pemasukan, edit-laporan, delete-user).
 
-## Contributing
+Menetapkan peran dan izin kepada setiap pengguna dengan mudah melalui antarmuka visual.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+CRUD Universal: Antarmuka yang seragam dan cepat untuk semua data master (Kategori, Pengguna, dll.).
 
-## Code of Conduct
+Notifikasi Real-time: Pemberitahuan instan untuk setiap aksi penting yang terjadi di sistem.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+🛠️ Teknologi yang Digunakan
+Proyek ini dibangun menggunakan tumpukan teknologi modern dan terpercaya:
 
-## Security Vulnerabilities
+Framework: Laravel 11
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Admin Panel: Filament 3
 
-## License
+Manajemen Hak Akses: Spatie Laravel-Permission (Filament Shield)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# kas organisasi
+Frontend: Blade Engine, Tailwind CSS
+
+Database: MySQL / MariaDB
+
+Server: Apache / Nginx
+
+🚀 Panduan Instalasi Lengkap
+Ikuti langkah-langkah di bawah ini untuk menginstal dan menjalankan proyek ini di lingkungan lokal Anda.
+
+1. Prasyarat
+Pastikan Anda sudah menginstal perangkat lunak berikut:
+
+PHP 8.2 atau lebih baru
+
+Composer
+
+Node.js & NPM
+
+Web Server (XAMPP, Laragon, atau sejenisnya)
+
+Git
+
+2. Kloning Repositori
+Buka terminal, masuk ke direktori htdocs (atau direktori web server Anda), lalu kloning repositori ini.
+
+git clone https://github.com/jangoden/KAS-ORG.git
+cd KAS-ORG
+
+3. Konfigurasi Lingkungan (.env)
+Salin file .env.example menjadi .env. File ini berisi semua konfigurasi untuk aplikasi Anda.
+
+cp .env.example .env
+
+Buka file .env dan sesuaikan konfigurasi database:
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=db_kas_organisasi
+DB_USERNAME=root
+DB_PASSWORD=
+
+Penting: Jangan lupa membuat database db_kas_organisasi di phpMyAdmin terlebih dahulu.
+
+4. Instalasi Dependensi
+Instal semua dependensi PHP (termasuk Laravel & Filament) dan dependensi JavaScript.
+
+# Instal dependensi PHP
+composer install
+
+# Instal dependensi Node.js
+npm install
+
+# Generate application key
+php artisan key:generate
+
+5. Migrasi dan Seeding Database
+Jalankan migrasi untuk membuat semua tabel di database, lalu jalankan seeder untuk mengisi data awal (termasuk user admin dan roles/permissions).
+
+# Menjalankan migrasi untuk membuat struktur tabel
+php artisan migrate
+
+# (Opsional) Menjalankan seeder untuk data awal
+php artisan db:seed
+
+6. Buat User Admin (Jika Seeder Tidak Tersedia)
+Jika db:seed tidak membuat user admin, Anda bisa membuatnya secara manual dengan perintah Filament berikut. Ikuti instruksi yang muncul di terminal.
+
+php artisan make:filament-user
+
+▶️ Cara Menjalankan Aplikasi
+Compile Aset Frontend: Jalankan perintah ini untuk meng-compile file CSS dan JS.
+
+npm run dev
+
+(Biarkan terminal ini tetap berjalan selama pengembangan)
+
+Jalankan Server Lokal: Buka terminal baru di direktori proyek dan jalankan server pengembangan Laravel.
+
+php artisan serve
+
+Akses Aplikasi:
+
+Halaman Utama: Buka browser dan akses http://127.0.0.1:8000
+
+Halaman Admin: Untuk masuk ke panel admin, akses http://127.0.0.1:8000/admin
+
+Akun Default Admin:
+
+Email: admin@example.com
+
+Password: password
+(Sesuaikan jika Anda mengubahnya di seeder atau saat membuat user manual)
+
+🤝 Kontribusi Proyek
+Kami sangat terbuka untuk kontribusi dari komunitas untuk pengembangan KAS-ORG. Jika Anda ingin berkontribusi, silakan ikuti langkah-langkah berikut:
+
+Fork repositori ini.
+
+Buat branch baru untuk fitur Anda (git checkout -b fitur/NamaFiturBaru).
+
+Commit perubahan Anda (git commit -m 'Menambahkan fitur A').
+
+Push ke branch Anda (git push origin fitur/NamaFiturBaru).
+
+Buat Pull Request baru.
+
+Tentang Laravel
+Laravel adalah kerangka kerja aplikasi web dengan sintaks yang ekspresif dan elegan. Kami percaya pengembangan harus menjadi pengalaman yang menyenangkan dan kreatif agar benar-benar memuaskan. Laravel menghilangkan kesulitan dalam pengembangan dengan mempermudah tugas-tugas umum yang digunakan di banyak proyek web, seperti:
+
+Mesin routing yang sederhana dan cepat.
+
+Container injeksi dependensi yang kuat.
+
+Berbagai back-end untuk penyimpanan sesi dan cache.
+
+ORM database yang ekspresif dan intuitif.
+
+Migrasi skema yang tidak bergantung pada database.
+
+Pemrosesan pekerjaan latar belakang yang tangguh.
+
+Penyiaran acara secara real-time.
+
+Laravel mudah diakses, kuat, dan menyediakan alat yang diperlukan untuk aplikasi besar dan tangguh.
+
+Belajar Laravel
+Laravel memiliki dokumentasi dan perpustakaan tutorial video yang paling luas dan menyeluruh dari semua kerangka kerja aplikasi web modern, membuatnya mudah untuk memulai.
+
+Anda juga dapat mencoba Laravel Bootcamp, di mana Anda akan dipandu membangun aplikasi Laravel modern dari awal.
+
+Jika Anda tidak suka membaca, Laracasts dapat membantu. Laracasts berisi ribuan tutorial video tentang berbagai topik termasuk Laravel, PHP modern, pengujian unit, dan JavaScript.
+
+Sponsor Laravel
+Kami ingin mengucapkan terima kasih kepada sponsor berikut yang mendanai pengembangan Laravel. Jika Anda tertarik untuk menjadi sponsor, silakan kunjungi program Mitra Laravel.
+
+Mitra Premium
+Vehikl
+
+Tighten Co.
+
+Kirschbaum Development Group
+
+64 Robots
+
+Curotec
+
+DevSquad
+
+Redberry
+
+Active Logic
+
+Kontribusi untuk Laravel
+Terima kasih telah mempertimbangkan untuk berkontribusi pada kerangka kerja Laravel! Panduan kontribusi dapat ditemukan di dokumentasi Laravel.
+
+Kode Etik
+Untuk memastikan bahwa komunitas Laravel ramah untuk semua, harap tinjau dan patuhi Kode Etik.
+
+Kerentanan Keamanan
+Jika Anda menemukan kerentanan keamanan dalam Laravel, silakan kirim e-mail ke Taylor Otwell melalui taylor@laravel.com. Semua kerentanan keamanan akan segera ditangani.
+
+Lisensi
+Kerangka kerja Laravel adalah perangkat lunak sumber terbuka yang dilisensikan di bawah lisensi MIT.
