@@ -13,7 +13,8 @@
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "maatwebsite/excel": "^3.1",
-        "spatie/laravel-permission": "^6.20"
+        "spatie/laravel-permission": "^6.20",
+        "tomatophp/filament-pwa": "^1.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

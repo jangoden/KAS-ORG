@@ -36,8 +36,6 @@ class Laporan extends Page implements Tables\Contracts\HasTable
 
     public static function canAccess(): bool
     {
-        // Baris ini akan langsung memeriksa apakah pengguna punya izin 'page_Laporan'.
-        // Jika tidak punya, halaman tidak akan bisa diakses sama sekali.
         return auth()->user()->can('page_Laporan');
     }
 
@@ -123,9 +121,6 @@ class Laporan extends Page implements Tables\Contracts\HasTable
         $this->periodSummary = ['total_income'  => $income, 'total_expense' => $expense, 'balance' => $income - $expense];
     }
     
-    // =========================================================================
-    // [PERBAIKAN UTAMA] Logika kalkulasi ringkasan anggota disempurnakan
-    // =========================================================================
     public function calculateMemberSummary(): void
     {
         $memberId = $this->form->getState()['member_id'];
@@ -140,11 +135,8 @@ class Laporan extends Page implements Tables\Contracts\HasTable
 
         $monthsSinceActive = 0;
         if ($member?->tanggal_aktif) {
-            // [FIX 1] Menggunakan logika yang lebih akurat untuk menghitung siklus bulan
             $startPeriod = $member->tanggal_aktif->copy()->startOfMonth();
             $endPeriod = now()->startOfMonth();
-            
-            // Menghitung selisih bulan secara absolut dan menambahkan 1 untuk memasukkan bulan awal
             $monthsSinceActive = $startPeriod->diffInMonths($endPeriod) + 1;
         }
         
@@ -153,7 +145,6 @@ class Laporan extends Page implements Tables\Contracts\HasTable
         $this->memberSummary = [
             'total_paid' => $totalPaid,
             'months_paid' => $monthsPaid,
-            // [FIX 2] Memastikan hasilnya selalu integer positif (bilangan bulat, bukan desimal)
             'months_due' => max(0, (int) $monthsDue),
         ];
     }
@@ -164,26 +155,37 @@ class Laporan extends Page implements Tables\Contracts\HasTable
             ->query(fn(): Builder => $this->getFilteredQuery())
             ->columns([
                 TextColumn::make('date')->label('Tanggal')->date('d/m/Y')->sortable(),
-                TextColumn::make('type')->label('Jenis')->badge()->colors(['success' => 'masuk', 'danger'  => 'keluar'])->formatStateUsing(fn($state) => $state === 'masuk' ? 'Pemasukan' : 'Pengeluaran'),
+                TextColumn::make('type')
+                    ->label('Jenis')
+                    ->badge()
+                    ->colors(['success' => 'masuk', 'danger'  => 'keluar'])
+                    ->formatStateUsing(fn($state) => $state === 'masuk' ? 'Pemasukan' : 'Pengeluaran'),
                 TextColumn::make('amount')->label('Jumlah')->money('IDR')->sortable(),
-                TextColumn::make('member.name')->label('Anggota')->wrap()->searchable()
-                    ->visible(fn() => $this->form->getState()['filterType'] === 'periode'),
+                TextColumn::make('id')
+                    ->label('Anggota / Penerima')
+                    ->formatStateUsing(function (DuesTransaction $record) {
+                        if ($record->type === 'masuk') {
+                            return $record->member?->name;
+                        }
+                        return $record->recipient_name;
+                    })
+                    ->searchable(query: function (Builder $query, string $search): Builder {
+                        return $query->where(function ($q) use ($search) {
+                            $q->whereHas('member', fn ($subQuery) => $subQuery->where('name', 'like', "%{$search}%"))
+                                ->orWhere('recipient_name', 'like', "%{$search}%");
+                        });
+                    })
+                    ->visible(fn() => $this->form->getState()['filterType'] === 'periode')
+                    ->wrap(),
                 TextColumn::make('description')->label('Keterangan')->wrap(),
             ])
             ->defaultSort('date', 'desc')
             ->paginated();
     }
 
-    // file: app/Filament/Pages/Laporan.php
-
     protected function getFilteredQuery(): Builder
     {
         $formData = $this->form->getState();
-
-        // [PERBAIKAN UTAMA]
-        // 1. ->select('dues_transactions.*'): Memastikan semua kolom dari tabel utama terpilih.
-        // 2. ->with('member'): Memuat data relasi dari tabel 'members'.
-        // Ini adalah kunci agar nama anggota bisa diakses.
         $query = DuesTransaction::query()
             ->select('dues_transactions.*')
             ->with('member');
@@ -238,7 +240,16 @@ class Laporan extends Page implements Tables\Contracts\HasTable
         $formData = $this->form->getState();
         $viewName = 'exports.transaction-pdf';
         $data = [];
-        $filename = 'laporan-kas-wajib-' . now()->format('Y-m-d') . '.pdf';
+        $filename = 'laporan-kas-' . now()->format('Y-m-d') . '.pdf';
+
+        // [BARU] Data untuk kop surat. Silakan sesuaikan dengan data organisasi Anda.
+        $kopSuratData = [
+            'logo_url' => public_path('images/logo.png'),
+            'nama_organisasi' => 'PC IPNU KAB. CIAMIS',
+            'alamat' => 'Jl. Raya Ciamis No.24, Dewasari, Kec. Cijeungjing, Kabupaten Ciamis, Jawa Barat 46271',
+            'telepon' => '081380904271',
+            'email' => 'ipnukabciamis@gmail.com',
+        ];
 
         if ($formData['filterType'] === 'anggota' && !empty($formData['member_id'])) {
             $viewName = 'exports.member-kas-pdf';
@@ -270,25 +281,33 @@ class Laporan extends Page implements Tables\Contracts\HasTable
             
             $data = [
                 'summary'             => $this->periodSummary,
-                'title'               => 'Laporan Kas Wajib',
+                'title'               => 'LAPORAN KEUANGAN PC IPNU KAB. CIAMIS',
                 'period'              => $this->getPeriodText(),
                 'groupedTransactions' => $groupedTransactions,
             ];
         }
 
-        $pdf = Pdf::loadHTML(Blade::render($viewName, $data));
+        // [MODIFIKASI] Gabungkan data laporan dengan data kop surat
+        $finalData = array_merge($data, $kopSuratData);
+
+        $pdf = Pdf::loadHTML(Blade::render($viewName, $finalData));
         return response()->streamDownload(fn() => print($pdf->output()), $filename);
     }
 
     public function exportToExcel()
     {
-        $filename = 'laporan-kas-wajib-' . now()->format('Y-m-d') . '.xlsx';
-        if ($this->form->getState()['filterType'] === 'anggota') {
-            $memberName = Member::find($this->form->getState()['member_id'])->name ?? 'anggota';
+        $formData = $this->form->getState();
+        $title = 'Laporan Kas ';
+        $filename = 'laporan-kas-' . now()->format('Y-m-d') . '.xlsx';
+
+        if ($formData['filterType'] === 'anggota') {
+            $memberName = Member::find($formData['member_id'])->name ?? 'anggota';
+            $title = 'Laporan Iuran Anggota';
             $filename = 'laporan-anggota-' . str($memberName)->slug() . '-' . now()->format('Y-m-d') . '.xlsx';
         }
 
-        $exportClass = new TransactionsExport($this->getFilteredQuery(), $this->getPeriodText());
+        $exportClass = new TransactionsExport($this->getFilteredQuery(), $this->getPeriodText(), $title);
+        
         return Excel::download($exportClass, $filename);
     }
 

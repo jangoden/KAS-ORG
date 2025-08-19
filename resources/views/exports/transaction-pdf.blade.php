@@ -39,8 +39,20 @@
     </style>
 </head>
 <body>
+
+    <x-kop-surat 
+    :logo-url="$logo_url"
+    :nama-organisasi="$nama_organisasi"
+    :alamat="$alamat"
+    :telepon="$telepon"
+    :email="$email"
+/>
+
+    {{-- Header dengan Judul dan Periode --}}
+
+
     <div class="header">
-        <div class="title">{{ $title ?? 'Laporan Kas Wajib' }}</div>
+        <div class="title">{{ $title ?? 'Laporan Kas' }}</div>
         <div class="period">Periode: {{ $period }}</div>
     </div>
 
@@ -89,7 +101,7 @@
                     <tr>
                         <td class="text-center">{{ $index + 1 }}</td>
                         <td>{{ \Carbon\Carbon::parse($transaction->date)->translatedFormat('d M Y') }}</td>
-                        <td>{{ $transaction->member->name ?? 'Anggota tidak ditemukan' }}</td>
+                        <td>{{ $transaction->member->name ?? ' - ' }}</td>
                         <td>{{ $transaction->description }}</td>
                         <td>{{ $transaction->type === 'masuk' ? 'Pemasukan' : 'Pengeluaran' }}</td>
                         <td class="text-right">Rp {{ number_format($transaction->amount, 0, ',', '.') }}</td>

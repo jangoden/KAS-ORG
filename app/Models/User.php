@@ -25,7 +25,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'member_id', // Pastikan ini ada jika Anda menggunakannya
+        'member_id', 
     ];
 
     /**

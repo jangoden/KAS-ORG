@@ -26,6 +26,13 @@
     </style>
 </head>
 <body>
+    <x-kop-surat 
+    :logo-url="$logo_url"
+    :nama-organisasi="$nama_organisasi"
+    :alamat="$alamat"
+    :telepon="$telepon"
+    :email="$email"
+/>
     <div class="header">
         <div class="title">Laporan Kas Anggota</div>
     </div>

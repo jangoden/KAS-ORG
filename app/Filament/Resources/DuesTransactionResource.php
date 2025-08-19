@@ -17,7 +17,7 @@ use Filament\Forms\Set;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Actions\Action; // <-- [DITAMBAHKAN] Untuk Tombol Aksi Kustom
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -217,7 +217,7 @@ class DuesTransactionResource extends Resource implements HasShieldPermissions /
                                     $saldoSaatIni += $record->amount;
                                 }
                                 if ((float) $value > $saldoSaatIni) {
-                                    $fail("Nominal pengeluaran tidak boleh melebihi saldo kas saat ini. Saldo tersedia: Rp " . number_format($saldoSaatIni, 0, ',', '.'));
+                                    $fail("Nominal pengeluaran tidak bisa melebihi saldo kas saat ini. Saldo tersedia: Rp " . number_format($saldoSaatIni, 0, ',', '.'));
                                 }
                             }
                         };

@@ -11,11 +11,14 @@ use Filament\Support\RawJs; // <-- [DITAMBAHKAN] Untuk format Javascript
 class KasBulananChart extends ChartWidget
 {
     // [DIUBAH] Judul chart disesuaikan dengan gambar
-    protected static ?string $heading = 'Grafik Laporan Kas Wajib';
+    protected static ?string $heading = 'Grafik Trend Kas';
 
     protected static ?int $sort = 2;
 
     protected int | string | array $columnSpan = 'full';
+
+    // Tambahkan properti ini untuk mengatur tinggi grafik (dalam pixel)
+    protected static ?int $height = 20;
 
     protected function getType(): string
     {

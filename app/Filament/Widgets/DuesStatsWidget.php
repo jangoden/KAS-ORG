@@ -46,7 +46,7 @@ class DuesStatsWidget extends BaseWidget
         // Persiapan deskripsi untuk widget Saldo Bulan Ini
         $pemasukanBulanIniStr = Number::currency($incomeForThisMonthPeriod, 'IDR', 'id');
         $pengeluaranBulanIniStr = '<span style="color:red;">' . Number::currency($expensesThisMonth, 'IDR', 'id') . '</span>';
-        $deskripsiSaldoBulanIni = new HtmlString('Iuran Terkumpul: ' . $pemasukanBulanIniStr . ' • Pengeluaran: ' . $pengeluaranBulanIniStr);
+        $deskripsiSaldoBulanIni = new HtmlString('Pemasukan: ' . $pemasukanBulanIniStr . ' • Pengeluaran: ' . $pengeluaranBulanIniStr);
 
 
         // --- 3. Kalkulasi Akurat untuk Status Iuran Bulan Ini ---
@@ -72,21 +72,21 @@ class DuesStatsWidget extends BaseWidget
                 ->color('primary')
                 ->url(DuesTransactionResource::getUrl('index')),
 
-            // Widget untuk Saldo Bulan Ini
-            Stat::make('Saldo Bulan Ini (' . $monthName . ')', Number::currency($balanceThisMonth, 'IDR', 'id'))
+            // Widget untuk Transaksi Bulan Ini
+            Stat::make('Transaksi Bulan Ini (' . $monthName . ')', Number::currency($balanceThisMonth, 'IDR', 'id'))
                 ->description($deskripsiSaldoBulanIni)
                 ->descriptionIcon($balanceThisMonth >= 0 ? 'heroicon-m-arrow-trending-up' : 'heroicon-m-arrow-trending-down')
                 ->color($balanceThisMonth >= 0 ? 'success' : 'danger'),
 
             // Widget untuk Status Iuran Bulan Ini
-            Stat::make("Iuran {$monthName}", "{$paidMembers} / {$activeMembersForDues} Lunas")
+            Stat::make("Status Iuran {$monthName}", "{$paidMembers} / {$activeMembersForDues} Lunas")
                 ->description("$paymentPercentage% Anggota telah membayar")
                 ->descriptionIcon('heroicon-m-chart-pie')
                 ->color('info')
                 ->url(LaporanStatusPembayaran::getUrl()),
                 
             // Widget untuk Total Anggota Aktif
-            Stat::make('Total Anggota Aktif', $totalActiveMembers)
+            Stat::make('Total Anggota', $totalActiveMembers)
                 ->description('Jumlah seluruh anggota terdaftar')
                 ->descriptionIcon('heroicon-m-users')
                 ->color('warning')

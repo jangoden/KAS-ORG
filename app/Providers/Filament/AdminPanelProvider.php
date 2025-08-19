@@ -17,6 +17,7 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Navigation\NavigationGroup;
+use Filament\Navigation\NavigationItem;
 
 // --- Daftarkan semua widget yang akan ditampilkan di Dashboard ---
 use App\Filament\Widgets\DashboardReportWidget;
@@ -33,10 +34,15 @@ class AdminPanelProvider extends PanelProvider
             ->path('')
             ->login()
             ->font('Poppins')
-            ->brandName('KAS IPNU') 
+            ->brandName('KAS ORGANISASI')
+            ->favicon(asset('images/favicon.png'))
             ->colors([
                 'primary' => Color::Emerald,
             ])
+
+                        
+
+            
             // [DIPERBAIKI] Mengatur urutan grup navigasi di sidebar
             ->navigationGroups([
                 NavigationGroup::make()

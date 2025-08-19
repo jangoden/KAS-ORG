@@ -21,7 +21,7 @@ class LaporanStatusPembayaran extends Page implements Forms\Contracts\HasForms
     protected static ?string $navigationLabel = 'Status Iuran';
     protected static ?string $navigationGroup = 'Kas';
     protected static ?string $slug = 'laporan-status-pembayaran';
-    protected static ?string $title = 'Status Kas';
+    protected static ?string $title = 'Status iuran';
     protected static string $view = 'filament.pages.laporan-status-pembayaran';
 
     public string $activeTab = 'per_periode';
